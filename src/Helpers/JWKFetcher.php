@@ -66,17 +66,23 @@ class JWKFetcher
      * Gets an array of keys from the JWKS as kid => x5c.
      *
      * @param string $jwks_url Full URL to the JWKS.
+     * @param boolean $static_well_known Whether to use local hardcoded jwks or not
      *
      * @return array
      */
-    public function getKeys($jwks_url)
+    public function getKeys($jwks_url, $static_well_known = false)
     {
         $keys = $this->cache->get($jwks_url);
         if (is_array($keys) && ! empty($keys)) {
             return $keys;
         }
 
-        $jwks = $this->requestJwks($jwks_url);
+        if ($static_well_known) {
+            $strJsonFileContents = file_get_contents("jwks.json");
+            $jwks = json_decode($strJsonFileContents, true);
+        } else {
+            $jwks = $this->requestJwks($jwks_url);
+        }
 
         if (empty( $jwks ) || empty( $jwks['keys'] )) {
             return [];

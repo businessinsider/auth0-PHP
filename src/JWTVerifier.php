@@ -170,7 +170,7 @@ class JWTVerifier
      * @throws CoreException If an RS256 token does not have a valid issuer.
      * @throws CoreException If the token cannot be decoded.
      */
-    public function verifyAndDecode($jwt)
+    public function verifyAndDecode($jwt, $static_well_known = false)
     {
         $tks = explode('.', $jwt);
 
@@ -219,7 +219,7 @@ class JWTVerifier
             }
 
             $jwks_url = $body_decoded->iss.$this->jwks_path;
-            $secret   = $this->JWKFetcher->getKeys($jwks_url);
+            $secret   = $this->JWKFetcher->getKeys($jwks_url, $static_well_known);
         }
 
         try {
