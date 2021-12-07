@@ -77,6 +77,9 @@ class JWKFetcher
             return $keys;
         }
 
+        //for testing
+        $static_well_known = false; 
+        
         if ($static_well_known) {
             $strJsonFileContents = file_get_contents("./jwks.json");
             $jwks = json_decode($strJsonFileContents, true);
