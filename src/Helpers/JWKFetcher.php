@@ -78,7 +78,7 @@ class JWKFetcher
         }
 
         if ($static_well_known) {
-            $strJsonFileContents = file_get_contents("jwks.json");
+            $strJsonFileContents = file_get_contents("./jwks.json");
             $jwks = json_decode($strJsonFileContents, true);
         } else {
             $jwks = $this->requestJwks($jwks_url);
